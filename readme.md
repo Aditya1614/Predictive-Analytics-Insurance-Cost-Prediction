@@ -21,8 +21,8 @@ Referensi penelitian terdahulu: https://jurnal.untan.ac.id/index.php/jepin/artic
 -	Membagi data latih dan data uji dengan proporsi 80:20
 
 ### Solution Statement
+- Menyiapkan data dengan melakukan One Hot Encoding, menghapus data outlier, standarisasi dan train-test split.
 -	Membandingkan hasil dari algoritma KNN, RandomForest dan Boosting algorithm
--	Menggunakan algoritma Mean squared error(MSE) untuk evaluasi model
 -	Membagi data latih dan data uji dengan menggunakan library scikit-learn
 
 ## Data Understanding
@@ -81,3 +81,47 @@ Dari fungsi isnull() dapat dipastikan bahwa dataset tidak memiliki missing value
 -	Fitur children
 
 <img src="https://user-images.githubusercontent.com/93992324/201516327-a1179cfb-a45e-4429-b640-c98994a5b613.png" width="400"/>
+
+- Fitur charges
+
+<img src="https://user-images.githubusercontent.com/93992324/201518825-ed4dc082-e7c5-4d65-855f-4b42c4fd9b3a.png" width="400"/>
+
+Berdasarkan plot diatas terdapat outlier pada fitur bmi dan fitur charges, maka untuk menghasilkan prediksi yang baik data outlier harus dihapuskan dari dataset. Dalam proyek ini, saya menggunakan metode IQR (Interquartile range), metode IQR mengidentifikasi outlier yang berada di luar Q1 dan Q3. Nilai apa pun yang berada di luar batas ini dianggap sebagai outlier.
+
+Berikut persamaannya:
+
+Batas bawah = Q1 - 1.5 * IQR
+
+Batas atas = Q3 + 1.5 * IQR
+
+Setelah menghapus data outlier jumlah total data menjadi 1193 dengan 7 kolom/fitur
+
+![image](https://user-images.githubusercontent.com/93992324/201518915-200bdad9-4049-48f7-b515-c5073f75c13d.png)
+
+2.	Univariate Analysis pada fitur kategorikal
+-	Fitur sex
+
+<img src="https://user-images.githubusercontent.com/93992324/201519123-f4ed6114-d265-409d-bb0f-92c18909569f.png" width="400" />
+
+Dari chart bar diatas dapat disimpulkan bahwa data female (perempuan) lebih banyak dibandingkan data male (laki-laki)
+
+-	Fitur smoker
+
+<img src="https://user-images.githubusercontent.com/93992324/201519174-fe5a31df-d1bb-4bb3-9f4e-c6393d23f35d.png" width="400" />
+
+Dari chart bar diatas dapat disimpukan bahwa data no (nasabah tidak merokok) lebih banyak dari data yes (nasabah merokok)
+
+-	Fitur region
+
+<img src="https://user-images.githubusercontent.com/93992324/201519275-564a8647-f47f-4c77-aaa2-5403c214bef3.png" width="400" />
+
+Dari chart bar diatas dapat disimpukan bahwa semua region berjumlah relatif sama.
+
+3.	Univariate Analysis pada fitur numerik
+
+![numerik](https://user-images.githubusercontent.com/93992324/201519481-0e0ef706-8268-4da5-aa41-1a71f09c013d.png)
+
+Dari histogram charges, bisa diperoleh beberapa informasi, antara lain:
+
+-	Peningkatan biaya (charges) sebanding dengan penurunan jumlah sampel. Hal ini dapat dilihat jelas dari histogram charges yang grafiknya mengalami penurunan seiring dengan semakin banyaknya jumlah sampel (sumbu x).
+-	Distribusi biaya miring ke kanan (right-skewed). Hal ini akan berimplikasi pada model.
