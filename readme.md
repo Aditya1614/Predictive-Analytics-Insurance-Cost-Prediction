@@ -149,3 +149,181 @@ Matriks korelasi berkisar antara -1 dan +1. Ia mengukur kekuatan hubungan antara
 Arah korelasi antara dua variabel bisa bernilai positif (nilai kedua variabel cenderung meningkat bersama-sama) maupun negatif (nilai salah satu variabel cenderung meningkat ketika nilai variabel lainnya menurun).
 
 Dari matriks diatas dapat disimpulkan bahwa fitur bmi memiliki skor korelasi yang sangat kecil (-0.06) terhadap fitur target charges. Sehingga, fitur tersebut dapat di-drop.
+
+## Data Preparation
+1.	One-hot-encoding
+
+  Model machine learning tidak dapat mengolah data kategorik, sehingga perlu melakukan konversi data kategorik menjadi data numerik. Salah satu teknik untuk mengubah data kategorik menjadi data numerik adalah dengan menggunakan One Hot Encoding atau yang juga dikenal sebagai dummy variables. One Hot Encoding mengubah data kategorik dengan membuat kolom baru untuk setiap kategori seperti gambar di bawah.
+
+<img src="https://user-images.githubusercontent.com/93992324/201522565-0fe411df-1a66-4818-ac8b-b3667f2d56d4.png" width="700" />
+
+Dalam penelitian ini penulis akan melakukan One Hot Encoding menggunakan library scikit-learn dengan menjalankan kode dibawah
+
+```
+from sklearn.preprocessing import  OneHotEncoder
+
+asuransi = pd.concat([asuransi, pd.get_dummies(asuransi['sex'], prefix='sex')],axis=1)
+asuransi = pd.concat([asuransi, pd.get_dummies(asuransi['smoker'], prefix='smoker')],axis=1)
+asuransi = pd.concat([asuransi, pd.get_dummies(asuransi['region'], prefix='region')],axis=1)
+asuransi.drop(['sex', 'smoker', 'region'], axis=1, inplace=True)
+asuransi.head()
+```
+
+setelah mengubah fitur kategorik sex, smoker, dan region maka dataframe akan menjadi seperti ini 
+
+![image](https://user-images.githubusercontent.com/93992324/201522771-4ebd1f34-703a-4f9a-a451-9414f782ad82.png)
+
+2.	Train-Test split
+
+Train-test split adalah membagi dataset menjadi 2 bagian yaitu data training dan data testing. Dengan demikian, kita bisa melakukan pelatihan model pada train set, kemudian mengujinya pada test set.
+
+Data testing diambil dengan proporsi tertentu. Pada praktiknya, pembagian data training dan data testing yang paling umum adalah 80:20, 70:30, atau 60:40, tergantung dari ukuran atau jumlah data. Namun, untuk dataset berukuran besar, proporsi pembagian 90:10 atau 99:1 juga umum dilakukan. Misal jika ukuran dataset sangat besar berisi lebih dari 1 juta record, maka dapat mengambil sekitar 10 ribu data saja untuk testing alias sebesar 1% saja. Dalam penelitian ini akan membagi data training dan data testing dengan proporsi 80:20.
+
+Untuk membagi data bisa dilakukan dengan menggunakan fungsi train_test_split yang disediakan oleh library scikit-learn, dengan kode sebagai berikut:
+
+```
+from sklearn.model_selection import train_test_split
+ 
+X = asuransi.drop(["charges"],axis =1)
+y = asuransi["charges"]
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 123)
+```
+
+- X : berfungsi untuk drop/menghapus kolom charges
+- y : berfungsi untuk menampilkan nilai dari kolom charge
+- test_size : adalah ukuran test (0.2 berarti 20% dari total dataset)
+- random_state : untuk menyeting random seed yang bertujuan supaya dapat memastikan bahwa hasil pembagian dataset konsisten dan memberikan data yang sama setiap kali model dijalankan.
+
+Total data setelah dibagi yaitu : 
+
+<img src="https://user-images.githubusercontent.com/93992324/201522832-fc44d75b-cc91-4c00-bdc6-40ff318b617a.png" width="300" />
+
+3.	Standarisasi
+
+Standarisasi adalah proses konversi nilai-nilai dari suatu fitur sehingga nilai-nilai tersebut memiliki skala yang sama. Z score adalah metode paling populer untuk standardisasi di mana setiap nilai pada sebuah atribut numerik akan dikurangi dengan rata-rata dan dibagi dengan standar deviasi dari seluruh nilai pada sebuah kolom atribut.
+
+<img src="https://user-images.githubusercontent.com/93992324/201522892-afe4f86d-0169-4887-9281-027f5e16de65.png" width="300" />
+
+Standarisasi dilakukan pada fitur data numerik selain fitur target, dalam penelitian ini stadarisasi akan dilakukan pada fitur age dan children yang ada di dataset train (latih) sehingga menjadi seperti ini
+
+<img src="https://user-images.githubusercontent.com/93992324/201522929-bcbf0ce7-6617-46f4-9924-fa97dd79fd31.png" width="300" />
+
+## Modelling
+Penelitian ini akan menggunakan 3 algoritma berbeda yaitu : 
+
+1.	KNN
+2.	RandomForest
+3.	Boosting Algorithm
+
+Berikut adalah penjelasan mengenai ketiga algoritma tersebut.
+
+1.	KNN
+
+Algoritma KNN menggunakan ‘kesamaan fitur’ untuk memprediksi nilai dari setiap data yang baru. Dengan kata lain, setiap data baru diberi nilai berdasarkan seberapa mirip titik tersebut dalam set pelatihan.
+
+KNN bekerja dengan membandingkan jarak satu sampel ke sampel pelatihan lain dengan memilih sejumlah k tetangga terdekat (dengan k adalah sebuah angka positif). Itulah mengapa algoritma ini dinamakan K-nearest neighbor (sejumlah k tetangga terdekat).
+Pemilihan nilai k sangat penting dan berpengaruh terhadap performa model. Jika memilih k yang terlalu rendah, maka akan menghasilkan model yang overfit dan hasil prediksinya memiliki varians tinggi. Jika kita memilih k terlalu tinggi, maka model yang dihasilkan akan underfit dan prediksinya memiliki bias yang tinggi.
+
+KNN menggunakan perhitungan ukuran jarak untuk menentukan titik mana dalam data yang paling mirip dengan input baru. Metrik ukuran jarak yang digunakan secara default pada library sklearn adalah Minkowski distance. Beberapa metrik ukuran jarak yang juga sering dipakai antara lain: Euclidean distance dan Manhattan distance. Sebagai contoh, jarak Euclidean dihitung sebagai akar kuadrat dari jumlah selisih kuadrat antara titik a dan titik b. Dirumuskan sebagai berikut:
+
+![image](https://user-images.githubusercontent.com/93992324/201523019-099c8050-25e4-41ee-a6b9-b920e7a36091.png)
+
+Sedangkan, Minkowski distance merupakan generalisasi dari Euclidean dan Manhattan distance. Dirumuskan sebagai berikut:
+
+![image](https://user-images.githubusercontent.com/93992324/201523062-4c7cddb2-de7b-4e1d-80ab-d43c56c54177.png)
+
+Dalam penelitian ini penulis menggunakan metrik Euclidean dan parameter k = 10.
+
+Setiap algoritma tentu memiliki kelebihan dan kekurangan berikut adalah  kelebihan dan kekurangan dari algoritma KNN.
+
+Kelebihan :
+
+-	Algoritma K-NN kuat dalam mentraining data yang noisy.
+-	Algoritma K-NN sangat efektif jika datanya besar.
+-	Mudah diimplementasikan.
+
+Kekurangan :
+
+-	Algoritma K-NN perlu menentukan nilai parameter K.
+-	Tidak efektif pada dataset yang memiliki jumlah fitur yang banyak
+-	Rentan pada variabel yang non-informatif.
+
+2.	RandomForest
+
+RandomForest merupakan salah satu model machine learning yang termasuk ke dalam kategori ensemble (group) learning. Esemble learning merupakan model prediksi yang terdiri dari beberapa model dan bekerja secara bersama-sama. Ide dibalik model ensemble adalah sekelompok model yang bekerja bersama menyelesaikan masalah. Sehingga, tingkat keberhasilan akan lebih tinggi dibanding model yang bekerja sendirian. Pada model ensemble, setiap model harus membuat prediksi secara independen. Kemudian, prediksi dari setiap model ensemble ini digabungkan untuk membuat prediksi akhir.
+
+RandomForest menggunakan Teknik pendekatan bagging dalam membuat modelnya. Bagging atau bootstrap aggregating adalah teknik yang melatih model dengan sampel random. Dalam teknik bagging, sejumlah model dilatih dengan teknik sampling with replacement (proses sampling dengan penggantian). Ketika melakukan sampling with replacement, sampel dengan nilai yang berbeda bersifat independen. Artinya, nilai suatu sampel tidak mempengaruhi sampel lainnya. Akibatnya, model yang dilatih akan berbeda antara satu dan lainnya.
+
+Ada beberapa parameter yang digunakan dalam algoritma RandomForest yaitu:
+
+-	n_estimator: jumlah trees (pohon) di forest. Di penelitian ini penulis menggunakan n_estimator=50.
+-	max_depth: kedalaman atau panjang pohon. Merupakan ukuran seberapa banyak pohon dapat membelah (splitting) untuk membagi setiap node ke dalam jumlah pengamatan yang diinginkan. Di penelitian ini penulis set max_depth =16.
+-	random_state: digunakan untuk mengontrol random number generator yang digunakan. Di penelitian ini penulis menggunakan random_state =55. 
+-	n_jobs: jumlah job (pekerjaan) yang digunakan secara paralel. Ia merupakan komponen untuk mengontrol thread atau proses yang berjalan secara paralel. Penulis menggunakan n_jobs=-1 yang artinya semua proses berjalan secara paralel.
+-	
+Setiap algoritma tentu memiliki kelebihan dan kekurangan berikut adalah  kelebihan dan kekurangan dari algoritma RandomForest.
+
+Kelebihan: 
+
+-	Bekerja dengan baik dengan data non-linear.
+-	Risiko overfitting lebih rendah.
+-	Berjalan secara efisien pada kumpulan data yang besar.
+
+Kekurangan:
+
+-	Random Forest cenderung bias saat berhadapan dengan variabel kategorikal.
+-	Waktu komputasi pada dataset berskala besar relatif lambat.
+-	Tidak cocok untuk metode linier dengan banyak fitur sparse.
+
+3.	Boosting Algorithm
+
+Boosting Algorithm algorithm juga merupakan salah satu dari metode ensemble learning. Teknik boosting bekerja dengan membangun model dari data latih. Kemudian membuat model kedua yang bertugas memperbaiki kesalahan dari model pertama. Model ditambahkan sampai data latih terprediksi dengan baik atau telah mencapai jumlah maksimum model untuk ditambahkan.
+
+Algoritma ini bertujuan untuk meningkatkan performa atau akurasi prediksi. Caranya adalah dengan menggabungkan beberapa model sederhana dan dianggap lemah (weak learners) sehingga membentuk suatu model yang kuat (strong ensemble learner).
+
+Dilihat dari caranya memperbaiki kesalahan pada model sebelumnya, algoritma boosting terdiri dari dua metode:
+
+-	Adaptive boosting
+-	Gradient boosting
+-	
+Penelitian, penulis akan menggunakan metode adaptive boosting yaitu algoritma AdaBoost. Berikut merupakan parameter-parameter yang digunakan pada algoritma AdaBoost:
+
+-	learning_rate: bobot yang diterapkan pada setiap regressor di masing-masing proses iterasi boosting. Dalam penelitian ini penulis menggunakan learning_rate=0.05.
+-	random_state: digunakan untuk mengontrol random number generator yang digunakan. Dalam penelitian ini penulis menggunakan random_state=55
+
+Setiap algoritma tentu memiliki kelebihan dan kekurangan berikut adalah  kelebihan dan kekurangan dari algoritma RandomForest.
+
+Kelebihan:
+
+-	Hasil pemodelan yang lebih akurat
+-	Metode ensemble dapat digunakan untuk menangkap hubungan linier maupun non-linier dalam data.
+Kekurangan:
+
+-	Waktu komputasi dan desain tinggi.
+-	Pengurangan kemampuan interpretasi model
+
+## Evaluation
+Karena penelitian ini adalah model regresi maka prediksi yang mendekati nilai sebenarnya, mempunyai performa yang baik. Sedangkan jika tidak, performanya buruk.
+Metrik yang digunakan pada penelitian ini adalah MSE atau Mean Squared Error yang menghitung jumlah selisih kuadrat rata-rata nilai sebenarnya dengan nilai prediksi. MSE didefinisikan dalam persamaan berikut
+
+![image](https://user-images.githubusercontent.com/93992324/201523312-81244b9d-0b5e-414f-8d6d-63d110404217.png)
+
+Keterangan:
+
+-	N = jumlah dataset
+-	yi = nilai sebenarnya
+-	y_pred = nilai prediksi
+
+Hasil perhitungan metrik mse terhadap model yaitu sebagai berikut
+
+<img src="https://user-images.githubusercontent.com/93992324/201523323-d448b470-c0cf-40f2-939e-608f046a5411.png" width="300" />
+
+Untuk mempermudah mempermudah membaca data, lihat plot metrik tersebut dengan chart bar berikut
+
+<img src="https://user-images.githubusercontent.com/93992324/201523330-544c6ab3-6db1-4e0b-b614-acc58c9449cf.png" width="400" />
+
+Uji model dengan data test
+
+<img src="https://user-images.githubusercontent.com/93992324/201523341-fa37ca71-1f90-4958-b404-435dc669430c.png" width="400" />
+
+Dapat disimpulkan bahwa, model RandomForest(RF) membuat prediksi paling mendekati dibandingkan algoritma lainnya.
