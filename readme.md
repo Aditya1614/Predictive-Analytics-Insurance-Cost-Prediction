@@ -125,3 +125,27 @@ Dari histogram charges, bisa diperoleh beberapa informasi, antara lain:
 
 -	Peningkatan biaya (charges) sebanding dengan penurunan jumlah sampel. Hal ini dapat dilihat jelas dari histogram charges yang grafiknya mengalami penurunan seiring dengan semakin banyaknya jumlah sampel (sumbu x).
 -	Distribusi biaya miring ke kanan (right-skewed). Hal ini akan berimplikasi pada model.
+
+4.	Multivariate Analysis pada fitur kategorikal
+
+![multi kategori](https://user-images.githubusercontent.com/93992324/201519924-47ebf95a-97e5-49be-a832-8277c2673485.png)
+
+Dengan mengamati rata-rata biaya (charges) relatif terhadap fitur kategori di atas, dapat diperoleh insight sebagai berikut:
+-	Pada fitur sex, rata-rata biaya cenderung mirip. Rentangnya berada +- 10000
+-	Pada fitur smoker, biaya akan lebih mahal pada data yes (nasabah yang merokok)
+-	Pada fitur region, rata-rata biaya cenderung mirip. Rentangnya berada antara 8000 hingga 12000
+-	Kesimpulan akhir, fitur smoker memiliki pengaruh lebih besar terhadap biaya asuransi dibandingkan fitur kategorikal lainnya.
+
+5.	Multivariate Analysis pada fitur numerik
+
+![multi numerik](https://user-images.githubusercontent.com/93992324/201520049-2d7f1eee-2817-4772-b80c-1cc6f1c58eb2.png)
+
+Membuat matriks korelasi untuk fitur numerik
+
+![korelasi](https://user-images.githubusercontent.com/93992324/201520092-a535879d-b8f7-492a-87e5-669a8c1daa79.png)
+
+Matriks korelasi berkisar antara -1 dan +1. Ia mengukur kekuatan hubungan antara dua variabel serta arahnya (positif atau negatif). Mengenai kekuatan hubungan antar variabel, semakin dekat nilainya ke 1 atau -1, korelasinya semakin kuat. Sedangkan, semakin dekat nilainya ke 0, korelasinya semakin lemah.
+
+Arah korelasi antara dua variabel bisa bernilai positif (nilai kedua variabel cenderung meningkat bersama-sama) maupun negatif (nilai salah satu variabel cenderung meningkat ketika nilai variabel lainnya menurun).
+
+Dari matriks diatas dapat disimpulkan bahwa fitur bmi memiliki skor korelasi yang sangat kecil (-0.06) terhadap fitur target charges. Sehingga, fitur tersebut dapat di-drop.
