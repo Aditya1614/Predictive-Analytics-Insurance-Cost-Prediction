@@ -51,13 +51,38 @@ Variable yang ada pada datasets adalah sebagai berikut :
   
 2.	cek type data dari variable/fitur menggunakan fungsi info()
 
-  ![image](https://user-images.githubusercontent.com/93992324/201516013-afa098ab-bea5-4012-a758-f09d1d1485e2.png)
-  
+RangeIndex: 1338 entries, 0 to 1337
+
+Data columns (total 7 columns) :
+
+| # | Column | Non-Null | Count | Dtype |
+|---|---|---|---|---|
+| 0 |	age |	1338 | non-null | int64 |
+| 1 |	sex |	1338 | non-null | object |
+| 2 |	bmi |	1338 | non-null | float64 |
+| 3 |	childen |	1338 | non-null | int64 |
+| 4 |	smoker |	1338 | non-null | object | 
+| 5 |	region |	1338 | non-null | object | 
+| 6 |	charges |	1338 | non-null | float64 |
+
+dtypes: float64(2), int64(2), object(3)
+
+memory usage: 73.3+ KB
+ 
   Dari info tersebut terlihat jumlah data sebanyak 1338 dan memiliki 7 kolom/fitur, 4 fitur numerik dan 3 fitur kategorikal.
   
 3.	melihat statistic dataset menggunakan fungsi describe()
 
-![image](https://user-images.githubusercontent.com/93992324/201516183-2ce96038-0180-412a-a81f-174b74564b98.png)
+|  | age | bmi | children | charges |
+|---|---|---|---|---|
+| count | 1338.000000 | 1338.000000 | 1338.000000 | 1338.000000 |
+| mean | 39.207025 | 30.663397 | 1.094918 | 13270.422265 |
+| std | 14.049960 | 6.098187 | 1.205493 | 12110.011237 |
+| min	| 18.000000	| 15.960000	| 0.000000 | 1121.873900 |
+| 25%	| 27.000000	| 26.296250	| 0.000000 | 4740.287150 |
+| 50%	| 39.000000	| 30.400000	| 1.000000 | 9382.033000 |
+| 75%	| 51.000000	| 34.693750	| 2.000000 | 16639.912515 |
+| max	| 64.000000	| 53.130000	| 5.000000 | 63770.428010 |
 
 Fungsi describe() memberikan informasi statistik pada masing-masing kolom, antara lain:
 -	Count  adalah jumlah sampel pada data.
