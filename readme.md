@@ -195,7 +195,7 @@ Dari matriks diatas dapat disimpulkan bahwa fitur bmi memiliki skor korelasi yan
 
   Model machine learning tidak dapat mengolah data kategorik, sehingga perlu melakukan konversi data kategorik menjadi data numerik. Salah satu teknik untuk mengubah data kategorik menjadi data numerik adalah dengan menggunakan One Hot Encoding atau yang juga dikenal sebagai dummy variables. One Hot Encoding mengubah data kategorik dengan membuat kolom baru untuk setiap kategori seperti gambar di bawah.
 
-<img src="https://user-images.githubusercontent.com/93992324/201522565-0fe411df-1a66-4818-ac8b-b3667f2d56d4.png" width="700" />
+<img src="https://user-images.githubusercontent.com/93992324/201522565-0fe411df-1a66-4818-ac8b-b3667f2d56d4.png" width="600" />
 
 setelah mengubah fitur kategorik sex, smoker, dan region maka dataframe akan menjadi seperti ini 
 
@@ -211,26 +211,13 @@ setelah mengubah fitur kategorik sex, smoker, dan region maka dataframe akan men
 
 Train-test split adalah membagi dataset menjadi 2 bagian yaitu data training dan data testing. Dengan demikian, kita bisa melakukan pelatihan model pada train set, kemudian mengujinya pada test set.
 
-Data testing diambil dengan proporsi tertentu. Pada praktiknya, pembagian data training dan data testing yang paling umum adalah 80:20, 70:30, atau 60:40, tergantung dari ukuran atau jumlah data. Namun, untuk dataset berukuran besar, proporsi pembagian 90:10 atau 99:1 juga umum dilakukan. Misal jika ukuran dataset sangat besar berisi lebih dari 1 juta record, maka dapat mengambil sekitar 10 ribu data saja untuk testing alias sebesar 1% saja. Dalam penelitian ini akan membagi data training dan data testing dengan proporsi 80:20.
+Data testing diambil dengan proporsi tertentu. Pada praktiknya, pembagian data training dan data testing yang paling umum adalah 80:20, 70:30, atau 60:40, tergantung dari ukuran atau jumlah data. Namun, untuk dataset berukuran besar, proporsi pembagian 90:10 atau 99:1 juga umum dilakukan. Misal jika ukuran dataset sangat besar berisi lebih dari 1 juta record, maka dapat mengambil sekitar 10 ribu data saja untuk testing alias sebesar 1% saja. 
 
-Untuk membagi data bisa dilakukan dengan menggunakan fungsi train_test_split yang disediakan oleh library scikit-learn, dengan kode sebagai berikut:
+Dalam penelitian ini akan membagi data training dan data testing dengan proporsi 80:20. Sehingga total data setelah dibagi yaitu : 
 
-```
-from sklearn.model_selection import train_test_split
- 
-X = asuransi.drop(["charges"],axis =1)
-y = asuransi["charges"]
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 123)
-```
-
-- X : berfungsi untuk drop/menghapus kolom charges
-- y : berfungsi untuk menampilkan nilai dari kolom charge
-- test_size : adalah ukuran test (0.2 berarti 20% dari total dataset)
-- random_state : untuk menyeting random seed yang bertujuan supaya dapat memastikan bahwa hasil pembagian dataset konsisten dan memberikan data yang sama setiap kali model dijalankan.
-
-Total data setelah dibagi yaitu : 
-
-<img src="https://user-images.githubusercontent.com/93992324/201522832-fc44d75b-cc91-4c00-bdc6-40ff318b617a.png" width="300" />
+- Total keseluruhan data: 1193
+- Total data latih (train): 954
+- Total data uji (test): 239
 
 3.	Standarisasi
 
@@ -240,7 +227,13 @@ Standarisasi adalah proses konversi nilai-nilai dari suatu fitur sehingga nilai-
 
 Standarisasi dilakukan pada fitur data numerik selain fitur target, dalam penelitian ini stadarisasi akan dilakukan pada fitur age dan children yang ada di dataset train (latih) sehingga menjadi seperti ini
 
-<img src="https://user-images.githubusercontent.com/93992324/201522929-bcbf0ce7-6617-46f4-9924-fa97dd79fd31.png" width="300" />
+|   | age | children |
+|---|---|---|
+| 824 | 1.483294 | -0.890958 |
+| 194 | -1.475908 | -0.890958 |
+| 1060 | -1.053165 | -0.890958 |
+| 820 | 0.426436 | -0.073675 |
+| 996	| 0.003693 | 1.560891 |
 
 ## Modelling
 Penelitian ini akan menggunakan 3 algoritma berbeda yaitu : 
@@ -266,7 +259,7 @@ Sedangkan, Minkowski distance merupakan generalisasi dari Euclidean dan Manhatta
 
 ![image](https://user-images.githubusercontent.com/93992324/201523062-4c7cddb2-de7b-4e1d-80ab-d43c56c54177.png)
 
-Dalam penelitian ini penulis menggunakan metrik Euclidean dan parameter k = 10.
+Dalam penelitian ini menggunakan metrik Euclidean dan parameter k = 10.
 
 Setiap algoritma tentu memiliki kelebihan dan kekurangan berikut adalah  kelebihan dan kekurangan dari algoritma KNN.
 
@@ -350,7 +343,11 @@ Keterangan:
 
 Hasil perhitungan metrik mse terhadap model yaitu sebagai berikut
 
-<img src="https://user-images.githubusercontent.com/93992324/201523323-d448b470-c0cf-40f2-939e-608f046a5411.png" width="300" />
+|   | train	| test |
+|---|---|---|
+| KNN	| 21157.354742 | 25649.820001 |
+| RF | 7943.760964 | 22299.436057 |
+| Boosting | 22190.573887 | 20945.939389 |
 
 Untuk mempermudah mempermudah membaca data, lihat plot metrik tersebut dengan chart bar berikut
 
@@ -358,6 +355,10 @@ Untuk mempermudah mempermudah membaca data, lihat plot metrik tersebut dengan ch
 
 Uji model dengan data test
 
-<img src="https://user-images.githubusercontent.com/93992324/201523341-fa37ca71-1f90-4958-b404-435dc669430c.png" width="400" />
+| y_true | prediksi_KNN | prediksi_RF | prediksi_Boosting |
+|---|---|---|---|
+| 274 | 2523.16950 | 5988.68799 | 2755.62838 | 5639.72206 |
+| 1040 | 20234.85475 | 17497.45236 | 22604.62558 | 21099.29075 |
+| 483 | 9880.06800 | 13064.72173 | 10360.07335 | 12568.12090 |
 
 Dapat disimpulkan bahwa, model RandomForest(RF) membuat prediksi paling mendekati dibandingkan algoritma lainnya.
