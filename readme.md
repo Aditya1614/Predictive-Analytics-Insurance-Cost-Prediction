@@ -40,7 +40,14 @@ Variable yang ada pada datasets adalah sebagai berikut :
 **Tahapan pra-pemrosesan data**
 1.	Memuat data kedalam pandas dataframe menggunakan fungsi read_csv()
 
-  ![memuat](https://user-images.githubusercontent.com/93992324/201515920-c3e22237-b710-45f7-94c9-e17564ad2481.png)
+|   | age | sex | bmi | children | smoker | region | charges |
+|---|---|---|---|---|---|---|---|
+| 0 | 19 | female | 27.900 | 0 | yes | southwest | 16884.92400 |
+| 1 | 18 | male | 33.770 | 1 | no | southeast | 1725.55230 |
+| 2 | 28 | male | 33.000 | 3 | no | southeast | 4449.46200 |
+| 3 | 33 | male | 22.705 | 0 | no | northeast | 21984.47061 |
+| 4 | 32 | male | 28.880 | 0 | no | northeast | 3866.85520 |
+| ... | ... | ... | ... | ... | ... | ... | ... |
   
 2.	cek type data dari variable/fitur menggunakan fungsi info()
 
