@@ -96,7 +96,17 @@ Fungsi describe() memberikan informasi statistik pada masing-masing kolom, antar
 
 4.	mengecek apakah ada missing value menggunakan fungsi isnull()
 
-![image](https://user-images.githubusercontent.com/93992324/201516230-01c156e4-e187-42e0-a7f6-5ec9a2200c4e.png)
+|   |   |
+|---|---|
+| age | 0 |
+| sex | 0 |
+| bmi | 0 |
+| children | 0 |
+| smoker | 0 |
+| region | 0 |
+| charges | 0 |
+
+ dtype: int64
 
 Dari fungsi isnull() dapat dipastikan bahwa dataset tidak memiliki missing value sehingga data siap untuk lanjut ke proses berikutnya.
 
@@ -127,8 +137,6 @@ Batas bawah = Q1 - 1.5 * IQR
 Batas atas = Q3 + 1.5 * IQR
 
 Setelah menghapus data outlier jumlah total data menjadi 1193 dengan 7 kolom/fitur
-
-![image](https://user-images.githubusercontent.com/93992324/201518915-200bdad9-4049-48f7-b515-c5073f75c13d.png)
 
 2.	Univariate Analysis pada fitur kategorikal
 -	Fitur sex
@@ -188,18 +196,6 @@ Dari matriks diatas dapat disimpulkan bahwa fitur bmi memiliki skor korelasi yan
   Model machine learning tidak dapat mengolah data kategorik, sehingga perlu melakukan konversi data kategorik menjadi data numerik. Salah satu teknik untuk mengubah data kategorik menjadi data numerik adalah dengan menggunakan One Hot Encoding atau yang juga dikenal sebagai dummy variables. One Hot Encoding mengubah data kategorik dengan membuat kolom baru untuk setiap kategori seperti gambar di bawah.
 
 <img src="https://user-images.githubusercontent.com/93992324/201522565-0fe411df-1a66-4818-ac8b-b3667f2d56d4.png" width="700" />
-
-Dalam penelitian ini penulis akan melakukan One Hot Encoding menggunakan library scikit-learn dengan menjalankan kode dibawah
-
-```
-from sklearn.preprocessing import  OneHotEncoder
-
-asuransi = pd.concat([asuransi, pd.get_dummies(asuransi['sex'], prefix='sex')],axis=1)
-asuransi = pd.concat([asuransi, pd.get_dummies(asuransi['smoker'], prefix='smoker')],axis=1)
-asuransi = pd.concat([asuransi, pd.get_dummies(asuransi['region'], prefix='region')],axis=1)
-asuransi.drop(['sex', 'smoker', 'region'], axis=1, inplace=True)
-asuransi.head()
-```
 
 setelah mengubah fitur kategorik sex, smoker, dan region maka dataframe akan menjadi seperti ini 
 
