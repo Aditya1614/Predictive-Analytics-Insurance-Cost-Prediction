@@ -5,9 +5,7 @@ Asuransi adalah kesepakatan yang melibatkan dua pihak, yaitu perusahaan asuransi
 
 Penanggungan dari produk atau polis asuransi dapat berupa biaya kesehatan, kecelakaan, kematian, kerusakan, kehilangan dsb.
 
-Dalam praktiknya, biaya asuransi kesehatan bisa berbeda tiap individu. Hal ini dikarenakan oleh beberapa hal seperti kebiasaan merokok dapat memiliki resiko kesehatan yang lebih besar. Maka dari itu, penelitian ini bertujuan menentukan biaya asuransi kesehatan yang tepat tiap individu sesuai profil calon nasabah.
-
-Referensi penelitian terdahulu: https://jurnal.untan.ac.id/index.php/jepin/article/view/48822/75676592879 
+Dalam praktiknya, biaya asuransi kesehatan bisa berbeda tiap individu. Hal ini dikarenakan oleh beberapa hal seperti kebiasaan merokok dapat memiliki resiko kesehatan yang lebih besar. Maka dari itu, penelitian ini bertujuan menentukan biaya asuransi kesehatan yang tepat tiap individu sesuai profil calon nasabah. 
 
 ## Business Understanding
 ### Problem Statements
@@ -362,3 +360,6 @@ Uji model dengan data test
 | 483 | 9880.06800 | 13064.72173 | 10360.07335 | 12568.12090 |
 
 Dapat disimpulkan bahwa, model RandomForest(RF) membuat prediksi paling mendekati dibandingkan algoritma lainnya.
+
+## Referensi
+M. Sholeh, Suraya, D. Andayati, "Machine Linear untuk Analisis Regresi Linier Biaya Asuransi Kesehatan dengan Menggunakan Python Jupyter Notebook" Vol. 8, No. 1, April 2022. [<a href="https://jurnal.untan.ac.id/index.php/jepin/article/view/48822/75676592879">link</a>]
