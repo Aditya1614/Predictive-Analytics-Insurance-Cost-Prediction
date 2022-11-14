@@ -199,7 +199,13 @@ Dari matriks diatas dapat disimpulkan bahwa fitur bmi memiliki skor korelasi yan
 
 setelah mengubah fitur kategorik sex, smoker, dan region maka dataframe akan menjadi seperti ini 
 
-![image](https://user-images.githubusercontent.com/93992324/201522771-4ebd1f34-703a-4f9a-a451-9414f782ad82.png)
+|   | age | children | charges | sex_female | sex_male | smoker_no | smoker_yes | region_northeast | region_northwest | region_southeast | region_southwest |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| 0 | 19 | 0 | 16884.92400 | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 1 |
+| 1 | 18 | 1 | 1725.55230 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | 0 |
+| 2 | 28 | 3 | 4449.46200 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | 0 |
+| 3 | 33 | 0 | 21984.47061 | 0 | 1 | 1 | 0 | 0 | 1 | 0 | 0 |
+| 4 | 32 | 0 | 3866.85520 | 0 | 1 | 1 | 0 | 0 | 1 | 0 | 0 |
 
 2.	Train-Test split
 
